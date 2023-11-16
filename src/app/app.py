@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from os import getenv
 from dotenv import  load_dotenv
 
+from .controller import users, payments
+
 load_dotenv()
 
 def app():
@@ -25,8 +27,11 @@ def app():
     
     @app.get("/")
     async def index():
-        return "Hello world !!"
+        return "Hello Backend ELIM!!"
     
+    app.include_router(users)
+    app.include_router(payments)
+
     return app
 
 create_app = app()
