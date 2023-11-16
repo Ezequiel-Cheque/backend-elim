@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    container_name: app
+    command: >
+      sh -c 'python main.py'
+    volumes:
+      - .:/app
+    ports:
+      - ${PORT}:${PORT}
+    expose:
+      - ${PORT}
+    networks:
+        - app-elim
+  
+
+  db:
+      image: mongo:5.0.0
+      command: mongod --port 27018
+      container_name: db
+      restart: always
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: password
+        MONGO_INITDB_DATABASE: psp
+      ports:
+        - 27018:27018
+      networks:
+        - app-elim
+
+networks:
+  app-elim:
+    driver: bridge
