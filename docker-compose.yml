@@ -24,10 +24,10 @@ services:
       command: mongod --port 27018
       container_name: db
       restart: always
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
-        MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
-        MONGO_INITDB_DATABASE: ${DB_SCHEMA}
+      # environment:
+      #   MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      #   MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      #   MONGO_INITDB_DATABASE: ${DB_SCHEMA}
       ports:
         - ${DB_PORT}:27018
       networks:

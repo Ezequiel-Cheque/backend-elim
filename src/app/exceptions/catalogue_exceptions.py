@@ -7,3 +7,6 @@ class CatalogsExceptions:
 
     def paymentNotExist():
         Error(400, "Los pagos que buscan no se encuentran")
+        
+    def errorUploadFile():
+        Error(400, "error, no se pudo subir el archivo")

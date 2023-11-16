@@ -9,8 +9,14 @@ class Payments_service:
         create_response = {}
         create_response["success"] = True
         create_response["data"] = None
-
+        
         body = paymentCreate.create(body)
+
+        body["form_data"] = {**body}
+        
+        del body["name"]
+        del body["last_name"]
+        del body["email"]
 
         result = Payments.create(**body)
         create_response["data"] = result

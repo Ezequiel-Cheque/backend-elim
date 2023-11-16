@@ -14,6 +14,7 @@ class Payments:
     amount: float
     date: str
     receipt: str
+    form_data: dict
     active: bool
 
     def create(**request):

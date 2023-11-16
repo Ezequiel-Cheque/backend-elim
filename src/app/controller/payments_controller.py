@@ -3,8 +3,8 @@ from fastapi.security import HTTPBearer
 from fastapi.responses import FileResponse
 from ..dto import payment_create_schema
 from ..service.payments_service import Payments_service
-from typing import Annotated
 from os import getcwd
+from ..exceptions.catalogue_exceptions import CatalogsExceptions
 
 payments = APIRouter(prefix="/payments", tags=["Payments endpoints"])
 security = HTTPBearer()
@@ -19,14 +19,32 @@ def create(body: payment_create_schema):
 
 @payments.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...)):
-    url = getcwd() + "/assets/receipts/" + file.filename
-    with open(url, "wb") as myfile:
-        content = await file.read()
-        myfile.write(content)
-        myfile.close()
-    return file.filename
+    
+    upload_response = {}
+    upload_response["success"] = True
+    upload_response["data"] = {}
+    
+    try:
+        url = getcwd() + "/assets/receipts/" + file.filename
+        with open(url, "wb") as myfile:
+            content = await file.read()
+            myfile.write(content)
+            myfile.close()
+            
+            file_name = file.filename
+            
+            response = {}
+            response["file_name"] = file_name
+            upload_response["data"] = response 
+             
+        return upload_response
+    
+    except Exception as err:
+        print(str(err))
+        CatalogsExceptions.errorUploadFile()
+        
 
-@payments.post("/file/{name}")
+@payments.get("/file/{name}")
 def get_file(name: str):
     return FileResponse(getcwd() + "/assets/receipts/" + name)
 
