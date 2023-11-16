@@ -23,7 +23,7 @@ def getall():
     return Users_service().get_all()
 
 @users.get(
-    "/get/{id}",
+    "/get/id/{id}",
     description="Get by user_id",
     responses={}
 )
@@ -31,9 +31,9 @@ def getall(id: str):
     return Users_service().get_by_id(id)
 
 @users.get(
-    "/get/{email}",
+    "/get/email/{email}",
     description="Get by email",
     responses={}
 )
-def getall(email: str):
+def get_by_email(email: str):
     return Users_service().get_by_email(email)

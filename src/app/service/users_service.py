@@ -1,5 +1,6 @@
 from ..dto import user_create_schema, userCreate
 from ..models import Users
+from ..exceptions.catalogue_exceptions import CatalogsExceptions
 
 class Users_service:
 
@@ -31,24 +32,31 @@ class Users_service:
         
         return create_response
 
-    def get_by_id(self, id):
+    def get_by_id(self, id: str):
         create_response = {}
         create_response["success"] = True
         create_response["data"] = None
-
+        
         user = Users.get_by_id(id)
+        
+        if not user:
+            CatalogsExceptions.userNotExist()
+
         user["id"] = str(user["_id"])
         del user["_id"]
         create_response["data"] = user
         
         return create_response
 
-    def get_by_email(self, email):
+    def get_by_email(self, email: str):
         create_response = {}
         create_response["success"] = True
         create_response["data"] = None
 
         user = Users.get_by_email(email)
+        if not user:
+            CatalogsExceptions.userNotExist()
+
         user["id"] = str(user["_id"])
         del user["_id"]
         create_response["data"] = user

@@ -1,5 +1,6 @@
 from ..dto import payment_create_schema, paymentCreate
 from ..models import Payments
+from ..exceptions.catalogue_exceptions import CatalogsExceptions
 
 
 class Payments_service:
@@ -38,6 +39,9 @@ class Payments_service:
         create_response["data"] = None
 
         payments = Payments.get_by_id(id)
+
+        if not payments:
+            CatalogsExceptions.paymentNotExist()
 
         for payment in payments:
             payment["id"] = str(payment["_id"])

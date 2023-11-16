@@ -37,7 +37,7 @@ class Users:
             print(str(err))
             return None
     
-    def get_by_id(email):
+    def get_by_email(email):
         try:
             return collection.find_one({"email": email, "active": True})
         except Exception as err:
