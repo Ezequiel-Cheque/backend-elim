@@ -30,3 +30,28 @@ class Users_service:
         create_response["data"] = users
         
         return create_response
+
+    def get_by_id(self, id):
+        create_response = {}
+        create_response["success"] = True
+        create_response["data"] = None
+
+        user = Users.get_by_id(id)
+        user["id"] = str(user["_id"])
+        del user["_id"]
+        create_response["data"] = user
+        
+        return create_response
+
+    def get_by_email(self, email):
+        create_response = {}
+        create_response["success"] = True
+        create_response["data"] = None
+
+        user = Users.get_by_email(email)
+        user["id"] = str(user["_id"])
+        del user["_id"]
+        create_response["data"] = user
+        
+        return create_response
+        

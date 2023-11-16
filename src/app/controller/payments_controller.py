@@ -29,3 +29,19 @@ async def create_upload_file(file: UploadFile = File(...)):
 @payments.post("/file/{name}")
 def get_file(name: str):
     return FileResponse(getcwd() + "/assets/receipts/" + name)
+
+@payments.get(
+    "/get/all",
+    description="Get all payments",
+    responses={}
+)
+def getall():
+    return Payments_service().get_all()
+
+@payments.get(
+    "/get/{id}",
+    description="Get by user_id",
+    responses={}
+)
+def getall(id: str):
+    return Payments_service().get_by_id(id)

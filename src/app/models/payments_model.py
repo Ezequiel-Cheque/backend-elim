@@ -24,3 +24,18 @@ class Payments:
         request["date"] = formatDate
         result = collection.insert_one(request)
         return str(result.inserted_id)
+    
+    def get_all():
+        try:
+            return list(collection.find({"active": True}))
+        except Exception as err:
+            print(str(err))
+            return None
+
+    def get_by_id(id):
+        try:
+            id = ObjectId(id)
+            return list(collection.find({"id_user": id, "active": True}))
+        except Exception as err:
+            print(str(err))
+            return None
