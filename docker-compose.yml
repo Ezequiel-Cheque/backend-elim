@@ -30,6 +30,8 @@ services:
       #   MONGO_INITDB_DATABASE: ${DB_SCHEMA}
       ports:
         - ${DB_PORT}:27018
+      volumes:
+      - .:/app
       networks:
         - app-elim
 
