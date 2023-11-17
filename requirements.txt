@@ -12,4 +12,3 @@ Unidecode
 pymongo
 python-multipart
 aiofiles
-pydantic[email]
