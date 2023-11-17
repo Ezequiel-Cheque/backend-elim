@@ -11,4 +11,3 @@ RUN apt install -y netcat-traditional
 
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
-RUN pip install pydantic[email]
