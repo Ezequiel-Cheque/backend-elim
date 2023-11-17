@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from os import getenv
 from dotenv import  load_dotenv
 
-from .controller import users, payments
+from .controller import users, payments, receipts
 
 load_dotenv()
 
@@ -31,6 +31,7 @@ def app():
     
     app.include_router(users)
     app.include_router(payments)
+    app.include_router(receipts)
 
     return app
 

@@ -62,4 +62,22 @@ class Users_service:
         create_response["data"] = user
         
         return create_response
+    
+    def delete(self, id: str):
+        delete_response = {}
+        delete_response["success"] = True
+        delete_response["data"] = None
         
+        user = Users.get_by_id(id)
+        
+        if not user:
+            CatalogsExceptions.userNotExist()
+        
+        result = Users.delete_user(id)
+        
+        delete_response["data"] = {
+            "message": "User delete successfully",
+            "id": id
+        }
+
+        return delete_response

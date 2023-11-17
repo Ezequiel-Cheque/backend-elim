@@ -57,3 +57,22 @@ class Payments_service:
         create_response["data"] = payments
         
         return create_response
+
+    def delete(self, id: str):
+        delete_response = {}
+        delete_response["success"] = True
+        delete_response["data"] = None
+        
+        payment = Payments.get_payment_by_id(id)
+
+        if not payment:
+            CatalogsExceptions.paymentNotExist()
+        
+        result = Payments.delete_payment(id)
+        
+        delete_response["data"] = {
+            "message": "Payment delete successfully",
+            "id": id
+        }
+
+        return delete_response

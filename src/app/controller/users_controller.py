@@ -37,3 +37,11 @@ def getall(id: str):
 )
 def get_by_email(email: str):
     return Users_service().get_by_email(email)
+
+@users.delete(
+    "/delete/{id}",
+    description="delete user",
+    responses={}
+)
+def delete(id: str):
+    return Users_service().delete(id)

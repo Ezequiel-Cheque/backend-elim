@@ -12,7 +12,7 @@ class Receipts_service:
 
         body = receiptCreate.create(body)
 
-        result = Receipts.create(**body)
+        result = Receipts.save(**body)
 
         create_response["data"] = {
             "message": "receipt create successfully",

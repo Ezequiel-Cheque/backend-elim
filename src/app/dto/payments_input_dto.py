@@ -9,7 +9,6 @@ class payment_create_schema(BaseModel):
     last_name: str = Field(description="")
     email: str = Field(description="")
     amount: float = Field(description="")
-    receipt: str = Field(description="")
 
 class paymentCreateSchemaRoot(BaseModel):
     __root__: payment_create_schema

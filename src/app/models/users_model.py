@@ -44,4 +44,13 @@ class Users:
             print(str(err))
             return None
 
-
+    def delete_user(id):
+        try:
+            id = ObjectId(id)
+            return collection.update_one(
+                {"_id": id},
+                {"$set": {"active": False}},
+                upsert=True,
+            )
+        except Exception:
+            return None    

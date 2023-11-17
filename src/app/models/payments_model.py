@@ -13,9 +13,9 @@ class Payments:
     id_user: str
     amount: float
     date: str
-    receipt: str
     form_data: dict
     active: bool
+    paid: bool
 
     def create(**request):
         date = datetime.now()
@@ -23,6 +23,8 @@ class Payments:
         request["id_user"] = ObjectId(request["id_user"])
         request["active"] = True
         request["date"] = formatDate
+        request["paid"] = False
+
         result = collection.insert_one(request)
         return str(result.inserted_id)
     
@@ -39,4 +41,23 @@ class Payments:
             return list(collection.find({"id_user": id, "active": True}))
         except Exception as err:
             print(str(err))
+            return None
+    
+    def get_payment_by_id(id):
+        try:
+            id = ObjectId(id)
+            return collection.find_one({"_id": id, "active": True})
+        except Exception as err:
+            print(str(err))
+            return None
+
+    def delete_payment(id):
+        try:
+            id = ObjectId(id)
+            return collection.update_one(
+                {"_id": id},
+                {"$set": {"active": False}},
+                upsert=True,
+            )
+        except Exception:
             return None
