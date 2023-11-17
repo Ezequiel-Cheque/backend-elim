@@ -10,3 +10,6 @@ class CatalogsExceptions:
         
     def errorUploadFile():
         Error(400, "error, no se pudo subir el archivo")
+
+    def receiptNotFound():
+        Error(400, "Recibo no encontrado")
