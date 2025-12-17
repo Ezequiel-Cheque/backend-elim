@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from fastapi.security import HTTPBearer
 from ..dto import user_create_schema
 from ..service.users_service import Users_service
+from typing import List
 
 users = APIRouter(prefix="/users", tags=["Users endpoints"])
 security = HTTPBearer()
@@ -14,6 +15,14 @@ security = HTTPBearer()
 def index(body: user_create_schema):
     return Users_service().create(body)
 
+@users.post(
+    "/create-many",
+    description="Create a list of users",
+    responses={}
+)
+def createList(bodyList: List[user_create_schema]):
+    return Users_service().createMany(bodyList)
+
 @users.get(
     "/get/all",
     description="Get all users",
@@ -21,6 +30,14 @@ def index(body: user_create_schema):
 )
 def getall():
     return Users_service().get_all()
+
+@users.get(
+    "/get-by-team/id/{id}",
+    description="Get all users by team",
+    responses={}
+)
+def getallByTeam(id: str):
+    return Users_service().getAll_by_team(id)
 
 @users.get(
     "/get/id/{id}",

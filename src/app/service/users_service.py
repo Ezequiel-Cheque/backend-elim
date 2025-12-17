@@ -1,6 +1,7 @@
 from ..dto import user_create_schema, userCreate
-from ..models import Users
+from ..models import Users, Teams
 from ..exceptions.catalogue_exceptions import CatalogsExceptions
+from typing import List
 
 class Users_service:
 
@@ -14,6 +15,18 @@ class Users_service:
         result = Users.save(**body)
 
         create_response["data"] = result
+        
+        return create_response
+    
+    def createMany(self, bodyList: List[user_create_schema]):
+        create_response = {}
+        create_response["success"] = True
+        create_response["data"] = []
+
+        for user in bodyList:
+            body = userCreate.create(user)
+            result = Users.save(**body)
+            create_response["data"].append(result)
         
         return create_response
 
@@ -45,6 +58,22 @@ class Users_service:
         user["id"] = str(user["_id"])
         del user["_id"]
         create_response["data"] = user
+        
+        return create_response
+    
+    def getAll_by_team(self, teamId: str):
+        create_response = {}
+        create_response["success"] = True
+        create_response["data"] = None
+
+        team = Teams.get_by_id(teamId)
+        
+        if not team:
+            CatalogsExceptions.userNotExist()
+
+        userList = Users.get_by_team(teamId, team['color'])
+
+        create_response["data"] = userList
         
         return create_response
 

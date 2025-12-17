@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from os import getenv
 from dotenv import  load_dotenv
 
-from .controller import users, payments, receipts
+from .controller import users, payments, receipts, teams
 
 load_dotenv()
 
@@ -29,6 +29,7 @@ def app():
     async def index():
         return "Hello Backend ELIM!!"
     
+    app.include_router(teams)
     app.include_router(users)
     app.include_router(payments)
     app.include_router(receipts)

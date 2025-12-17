@@ -6,14 +6,24 @@ from bson.objectid import ObjectId
 client = MongoClient(db)
 database = client[getenv("DB_SCHEMA")]
 
-collection = database["user"]
+collection = database["team"]
 
-class Users:
+class Teams:
+
 
     def save(**request):
         request["active"] = True
         result = collection.insert_one(request)
         return str(result.inserted_id)
+    
+    def updatePoints(id: str, points: int, position: int):
+        try:
+            id = ObjectId(id)
+            updated = collection.update_one({'_id': id }, { '$set': { 'point': points, 'position': position } })
+            return updated.modified_count
+        except Exception as err:
+            print(str(err))
+            return None
 
     def get_all():
         try:
@@ -22,17 +32,6 @@ class Users:
             print(str(err))
             return None
 
-    def get_by_team(id, teamName):
-        try:
-            userList = list(collection.find({"active": True, "team": id}))
-            for user in userList:
-                del user['_id']
-                user['team'] = teamName
-            return userList
-        except Exception as err:
-            print(str(err))
-            return []
-    
     def get_by_id(id):
         try:
             id = ObjectId(id)
@@ -40,15 +39,8 @@ class Users:
         except Exception as err:
             print(str(err))
             return None
-    
-    def get_by_email(email):
-        try:
-            return collection.find_one({"email": email, "active": True})
-        except Exception as err:
-            print(str(err))
-            return None
 
-    def delete_user(id):
+    def delete(id):
         try:
             id = ObjectId(id)
             return collection.update_one(
